@@ -1,0 +1,22 @@
+---
+title: "Data Export for Visualization"
+author: "Jesse Richardville"
+date: "2023-01-05"
+output: html_document
+---
+
+# Document Summary
+Export cleaned and transformed data for analysis and visualizations using Power BI.
+
+### Install appropriate packages
+```{r setup, include=FALSE}
+# export cleaned dataset (all_data_clean) to csv file for manipulation and analysis using Power BI
+install.packages("utils")
+library(utils)
+write.csv(all_data_clean, file = "all_data_clean.csv")
+
+# export map tables for viz to csv file for analysis using Power BI
+write.csv(map_viz_start, file = "map_viz_start.csv")
+write.csv(map_viz_end, file = "map_viz_end.csv")
+  
+```

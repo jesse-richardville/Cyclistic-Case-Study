@@ -1,0 +1,238 @@
+---
+title: "Data Cleaning and Analysis"
+author: "Jesse Richardville"
+date: "2023-01-05"
+output: html_document
+---
+# Document Summary
+Clean and transform the merged Cyclistic data (all_data) file for analysis using R
+​
+Raw data has been collected by Motivate International Inc, the company operating Divvy - a bike share service across Chicago and Evanston. The license to use this public dataset can be found [here.](https://www.divvybikes.com/data-license-agreement)
+​
+## Upload the merged dataset from the working directory
+```{r setup, include=FALSE}
+library(readr)
+all_bike_trip_merged <- read_csv("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/all_bike_trip_merged.csv")
+View(all_bike_trip_merged)
+all_data <- all_bike_trip_merged
+
+```
+
+### Install appropriate packages
+```{r setup, include=FALSE}
+install.packages("tidyverse")
+install.packages("lubridate")
+install.packages("Magrittr")
+library(tidyverse)
+library(lubridate)
+library(Magrittr)
+
+# calculate ride length and add as a new column, ride_time
+all_data$ride_time <- difftime(
+  all_data$ended_at, 
+  all_data$started_at,
+  units = "secs"
+) 
+
+# convert ride_time to hms for readability
+library(data.table)
+all_data <- all_data %>% 
+  mutate(ride_hms = as.ITime(hms::hms(seconds_to_period(ride_time)))
+  )
+
+# reposition columns in table for order
+all_data <- all_data %>% relocate(ride_time, .after = ended_at)
+all_data <- all_data %>% relocate(ride_hms, .after = ride_time)
+
+# remove rides <60 seconds for outliers/not real rides
+all_data <- arrange(all_data, -ride_time)
+all_data <- arrange(all_data, ride_time)
+all_data <- all_data %>%
+  filter(!(ride_time < 60)
+  )
+
+# remove rides >12 hours (43200 seconds) for outliers/not real rides
+all_data <- all_data %>%
+  filter(!(ride_time > 43200)
+  )
+
+# remove rides missing data (without start_station_name or end_station_name)
+all_data <- all_data %>%
+  filter(
+    !(is.na(start_station_name) |
+        start_station_name == "")
+  ) %>% 
+  filter(
+    !(is.na(end_station_name) |
+        end_station_name == "")
+  )
+
+# check for abnormal station names - rides with ALL CAPS or all lower 
+UPPER_lower_station_name_check <- all_data %>%
+  filter(
+    str_detect(start_station_name, "[:upper:]")
+    & !str_detect(start_station_name,"[:lower:]")
+  ) %>%
+  group_by(
+    start_station_name
+  ) %>%
+  count(
+    start_station_name
+  )
+# one station appeared 4 times with WEST CHI-WATSON, determined legitimate
+
+# check for test data by star_station_name
+library(stringr)
+Test <- all_data[str_detect(all_data$start_station_name, "Test"), ]
+all_data <- all_data %>%
+  filter(
+    !(str_detect(start_station_name, "Test"))
+  )
+# removed 1 result containing "Test" in start_station_name
+
+# check for duplicates
+install.packages("janitor")
+library(janitor)
+duplicates <- get_dupes(all_data, ride_id)   
+#No variable names specified - using all columns.
+
+# removed unnecessary column (1) from table
+all_data <- all_data[, -c(1)]
+
+# check for anomalies by running a summary of the dataset
+install.packages("psych")
+library(psych) 
+# create summary table
+anomalies <- describe(all_data)
+# no abnormalities, except there were 7 cases where the end_lat and end_lng 
+# were 0 but they had an end_station_name and end_station_id (were removed)
+
+# check bike types and when they were available
+unique(all_data$rideable_type)
+[1] "classic_bike"  "electric_bike" "docked_bike"  
+rideable_type_info <-all_data %>%
+  mutate(
+    year = year(started_at), 
+    month = month(started_at)
+  ) %>%
+  group_by(
+    month, 
+    year
+  ) %>%
+  select(
+    rideable_type, 
+    member_casual,
+    month, 
+    year
+  ) %>%
+  count(
+    rideable_type, 
+    member_casual
+  )
+# After filtering the raw data, all data for docked_bike is for casual riders.
+# Docked bikes are not used by member riders, but I'm not sure why.
+
+
+# check station names for review
+station_names <- all_data %>%
+  mutate(
+    year = year(started_at), 
+    month = month(started_at)
+  ) %>%
+  group_by(
+    month, 
+    year
+  ) %>%
+  select(
+    start_station_name, 
+    month, 
+    year
+  ) %>%  
+  count(start_station_name)
+
+# create columns of data by 'day', 'day of week', 'month', and 'year' for future analysis/viz
+# Day
+all_data$day <- format(
+  all_data$started_at, 
+  "%d"
+  )
+# Day of week 
+all_data$day_of_week <- format(
+  all_data$started_at, 
+  "%A"
+  )
+# Month 
+all_data$month <- format(
+  all_data$started_at, 
+  "%m"
+  )
+# Year 
+all_data$year <- format(
+  all_data$started_at, 
+  "%Y"
+  )
+# Time of Day, HH:MM:SS
+all_data$ToD <- format(
+  all_data$started_at, 
+  "%H:%M:%S"
+  )
+
+# statistical analysis by user type
+summary(all_data$ride_time)
+Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
+60     376     649    1012    1156   43147 
+
+aggregate(all_data$ride_time ~ all_data$member_casual, FUN = mean)
+all_data$member_casual all_data$ride_time
+1                 casual          1400.7239
+2                 member           750.5077
+aggregate(all_data$ride_time ~ all_data$member_casual, FUN = median)
+all_data$member_casual all_data$ride_time
+1                 casual                848
+2                 member                549
+aggregate(all_data$ride_time ~ all_data$member_casual, FUN = max)
+all_data$member_casual all_data$ride_time
+1                 casual              43147
+2                 member              43020
+aggregate(all_data$ride_time ~ all_data$member_casual, FUN = min)
+all_data$member_casual all_data$ride_time
+1                 casual                 60
+2                 member                 60
+
+# create tables for visuals to be used in viz
+# map tables for visual
+map_viz_start <- all_data %>%
+  select(
+    start_station_name, 
+    start_lat, 
+    start_lng
+  ) %>%
+  group_by(
+    start_station_name
+  ) %>%
+  mutate(
+    numtrips = n()
+  ) %>%
+  distinct(
+    start_station_name,  
+    .keep_all = TRUE
+  )
+
+map_viz_end <- all_data %>%
+  select(
+    end_station_name, 
+    end_lat, 
+    end_lng
+  ) %>%
+  group_by(
+    end_station_name
+  ) %>%
+  mutate(
+    numtrips = n()
+  ) %>%
+  distinct(
+    end_station_name,  
+    .keep_all = TRUE
+  )
+
+```

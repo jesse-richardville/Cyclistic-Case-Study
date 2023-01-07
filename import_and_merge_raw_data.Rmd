@@ -1,0 +1,106 @@
+---
+title: "Data Import Process"
+author: "Jesse Richardville"
+date: "2023-01-05"
+output: html_document
+---
+
+# Document Summary
+Obtain Cyclistic's raw datasets to prepare for the processing stage of analysis. For this case study, data collected between December 2021 - November 2022 will be analyzed. The dataset description can be located [here.](https://www.divvybikes.com/system-data)
+
+Raw data has been collected by Motivate International Inc, the company operating Divvy - a bike share service across Chicago and Evanston. The license to use this public dataset can be found [here.](https://www.divvybikes.com/data-license-agreement)
+
+## Obtain raw data from source and upload to working directory
+Data for this project can be found [here,](https://divvy-tripdata.s3.amazonaws.com/index.html) directly from the company.
+
+### Install appropriate packages
+
+```{r setup, include=FALSE}
+install.packages("tidyverse")
+install.packages("lubridate")
+library(tidyverse)
+library(lubridate)
+
+# import 12 monthly datasets and view all for structure
+
+library(readxl)
+X12_2021_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/12-2021_divvy_tripdata.xlsx")
+View(X12_2021_divvy_tripdata)
+
+X01_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/01-2022_divvy_tripdata.xlsx")
+View(X01_2022_divvy_tripdata)
+
+X02_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/02-2022_divvy_tripdata.xlsx")
+View(X02_2022_divvy_tripdata)
+
+X03_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/03-2022_divvy_tripdata.xlsx")
+View(X03_2022_divvy_tripdata)
+
+X04_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/04-2022_divvy_tripdata.xlsx")
+View(X04_2022_divvy_tripdata)
+
+X05_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/05-2022_divvy_tripdata.xlsx")
+View(X05_2022_divvy_tripdata)
+
+X06_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/06-2022_divvy_tripdata.xlsx")
+View(X06_2022_divvy_tripdata)
+
+X07_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/07-2022_divvy_tripdata.xlsx")
+View(X07_2022_divvy_tripdata)
+
+X08_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/08-2022_divvy_tripdata.xlsx")
+View(X08_2022_divvy_tripdata)
+
+X09_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/09-2022_divvy_tripdata.xlsx")
+View(X09_2022_divvy_tripdata)
+
+X10_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/10-2022_divvy_tripdata.xlsx")
+View(X10_2022_divvy_tripdata)
+
+X11_2022_divvy_tripdata <- read_excel("R docs/Working Directory/Cyclistic_case_study/data/raw/dirty_bike_data/11-2022_divvy_tripdata.xlsx")
+View(X11_2022_divvy_tripdata)
+
+glimpse(X12_2021_divvy_tripdata)
+glimpse(X01_2022_divvy_tripdata)
+glimpse(X02_2022_divvy_tripdata)
+glimpse(X03_2022_divvy_tripdata)
+glimpse(X04_2022_divvy_tripdata)
+glimpse(X05_2022_divvy_tripdata)
+glimpse(X06_2022_divvy_tripdata)
+glimpse(X07_2022_divvy_tripdata)
+glimpse(X08_2022_divvy_tripdata)
+glimpse(X09_2022_divvy_tripdata)
+glimpse(X10_2022_divvy_tripdata)
+glimpse(X11_2022_divvy_tripdata)
+
+# convert all data to the same data type
+# change X09_2022_divvy_tripdata end_station_id to <chr>
+    
+library(data.table)
+X09_2022_divvy_tripdata <- mutate(X09_2022_divvy_tripdata, 
+    start_station_id = as.character(start_station_id),
+    end_station_id = as.character(end_station_id)
+    )
+
+glimpse(X09_2022_divvy_tripdata)
+
+# combine separate monthly csv datasets into one table to clean
+df <- bind_rows(
+  X01_2022_divvy_tripdata, X02_2022_divvy_tripdata, X03_2022_divvy_tripdata,
+  X04_2022_divvy_tripdata, X05_2022_divvy_tripdata, X06_2022_divvy_tripdata,
+  X07_2022_divvy_tripdata, X08_2022_divvy_tripdata, X09_2022_divvy_tripdata,
+  X10_2022_divvy_tripdata, X11_2022_divvy_tripdata, X12_2021_divvy_tripdata,
+  )
+
+# view data to check structure/format
+glimpse(df)
+
+# rename df appropriately to all_data
+all_bike_trip_merged <- df
+glimpse(all_bike_trip_merged)
+
+# order rides by date
+all_bike_trip_merged <- all_bike_trip_merged %>%
+  arrange(started_at)
+  
+```
