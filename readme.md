@@ -56,3 +56,4 @@ Present findings and give top three recommendations:
 1. Determine how to apply insights
 2. Determine next steps based on findings (consider pros and cons and if more data is needed)
 3. Add case study to portfolio
+
