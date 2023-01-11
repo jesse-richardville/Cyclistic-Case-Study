@@ -48,7 +48,7 @@ Organize data for analysis and to create visuals:
 ### Share
 Create visuals and a presentation (consider original questions and audience/stakeholders):
 1. Use Power BI for visuals (since it is often referenced in job descriptions).
-2. Publish [Power BI dashboard](https://app.powerbi.com/reportEmbed?reportId=bfcc4129-2a52-4557-aaad-03f697a8905d&autoAuth=true&ctid=dd9514d9-0843-4d4f-8158-06bf09d7ea7c) for presentation.
+2. Publish [Power BI dashboard](<iframe title="cyclistic_visuals - Rider Summary" width="600" height="373.5" src="https://app.powerbi.com/view?r=eyJrIjoiOWFmYzg3ZjItMzllMS00YTQwLTgxNWQtMjgxY2M5OGI1YTdmIiwidCI6ImRkOTUxNGQ5LTA4NDMtNGQ0Zi04MTU4LTA2YmYwOWQ3ZWE3YyIsImMiOjN9" frameborder="0" allowFullScreen="true"></iframe>) for presentation.
 4. Create presentation using Powerpoint (for Power BI embed).
 
 ### Act
