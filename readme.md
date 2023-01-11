@@ -48,8 +48,7 @@ Organize data for analysis and to create visuals:
 ### Share
 Create visuals and a presentation (consider original questions and audience/stakeholders):
 1. Use Power BI for visuals (since it is often referenced in job descriptions).
-2. Publish Power BI dashboard for presentation.
-    [Dashboard](https://app.powerbi.com/reportEmbed?reportId=bfcc4129-2a52-4557-aaad-03f697a8905d&autoAuth=true&ctid=dd9514d9-0843-4d4f-8158-06bf09d7ea7c)
+2. Publish [Power BI dashboard](https://app.powerbi.com/reportEmbed?reportId=bfcc4129-2a52-4557-aaad-03f697a8905d&autoAuth=true&ctid=dd9514d9-0843-4d4f-8158-06bf09d7ea7c) for presentation.
 4. Create presentation using Powerpoint (for Power BI embed).
 
 ### Act
