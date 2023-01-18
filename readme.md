@@ -30,7 +30,7 @@ Design marketing strategies aimed at converting casual riders into annual member
 
 ### Prepare
 Obtain and import data for cleaning, formatting, and transformation:
-1. Data is complete, original, and open source, directly from the company (https://divvy-tripdata.s3.amazonaws.com/index.html) and has been made available by Motivate International Inc. under this license (https://ride.divvybikes.com/data-license-agreement). I have chosen to analyze 12 months of data from 12/2021 - 11/2022, which was last updated on Dec 8th 2021, 02:19:04 pm.
+1. Data is complete, original, and open source, directly from the company (https://divvy-tripdata.s3.amazonaws.com/index.html) and has been made available by Motivate International Inc. under this [license](https://ride.divvybikes.com/data-license-agreement). I have chosen to analyze 12 months of data from 12/2021 - 11/2022, which was last updated on Dec 8th 2021, 02:19:04 pm.
 2. Download data and store it appropriately.
 C:\Users\jesse\OneDrive\Documents\R docs\Working Directory\Cyclistic_case_study\data\raw\dirty_bike_data
 3. Merge, sort, filter, format, and transform the data using R for analysis and document this process.
@@ -47,7 +47,7 @@ Organize data for analysis and to create visuals:
 
 ### Share
 Create visuals and a presentation (consider original questions and audience/stakeholders):
-1. Use Power BI for visuals (since it is often referenced in job descriptions).
+1. Use Power BI for visuals (since it is highly sought after in job descriptions).
 2. Publish [Power BI dashboard](https://app.powerbi.com/view?r=eyJrIjoiOWFmYzg3ZjItMzllMS00YTQwLTgxNWQtMjgxY2M5OGI1YTdmIiwidCI6ImRkOTUxNGQ5LTA4NDMtNGQ0Zi04MTU4LTA2YmYwOWQ3ZWE3YyIsImMiOjN9) for presentation.
 4. Create presentation using Powerpoint (for Power BI embed).
 
