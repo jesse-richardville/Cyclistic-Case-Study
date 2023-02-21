@@ -1,7 +1,7 @@
 # Cyclistic Case Study
 
 ## Intro:
-This case study was completed as part of the Capstone unit of the Google Data Analytics Professional Certificate. R and Power BI have been used to complete this case study, which has been posted online through GitHub.
+This case study was completed as part of the Capstone unit of the Google Data Analytics Professional Certificate. R and Power BI have been used to analyze one year of historical bike-share company data to explore customer usage to maximize annual membership and make recommendations based on the results.
 
 ## Brief:
 
