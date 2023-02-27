@@ -57,3 +57,5 @@ Present findings and give top three recommendations:
 2. Determine next steps based on findings (consider pros and cons and if more data is needed)
 3. Add case study to portfolio
 
+## Summary:
+Analyzed Divvy bike-share company data using R and Power BI to design marketing strategies aimed at converting casual riders into annual members based on customer usage, which leads to the conclusion that members take 60% of all rides, summer months are the most popular (May – September), Wednesday is the most popular day for members, Saturday is the most popular day for casual riders, Saturday is the most popular day overall (16.1% of all rides taken), Monday is the least popular day overall (13.4% of all rides taken), casual riders take longer rides by time (23.3 minute average), and members take shorter rides (12.5 minute average) and are more consistent users. 
