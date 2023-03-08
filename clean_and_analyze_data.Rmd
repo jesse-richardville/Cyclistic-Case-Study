@@ -81,7 +81,7 @@ UPPER_lower_station_name_check <- all_data %>%
   )
 # one station appeared 4 times with WEST CHI-WATSON, determined legitimate
 
-# check for test data by star_station_name
+# check for test data by start_station_name
 library(stringr)
 Test <- all_data[str_detect(all_data$start_station_name, "Test"), ]
 all_data <- all_data %>%
